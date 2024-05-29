@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  <style>
+    /* Background styling */
+    body {
+      background-image: url('{% static "img/bg1.jpg" %}');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+
+    /* Container for product cards */
+    .product-container {
+      margin: 0 auto; /* Center align horizontally */
+      padding: 0 20px; /* Add space on both left and right sides */
+    }
+
+    /* Styles for the product cards */
+    .product-card {
+      position: relative;
+      border: none;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+      width: 230px; /* Example width */
+      height: 390px; /* Example height */
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-card .card-img-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .product-card .card-body {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.7); /* Transparent white background */
+      padding: 1.25rem;
+    }
+
+    .product-card .card-title {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-card .card-text {
+      font-size: 0.9rem;
+      color: #6c757d;
+    }
+
+    .product-card .text-muted {
+      font-size: 0.9rem;
+    }
+  </style>
+
+  {% if category %}
+    <div>
+      <h1 style="color:white;">{{ category.name }}</h1>
+      {% comment %} <img src='{{ category.image.url }}' style='max-width: 100%; height: auto;' alt='Category Image'> {% endcomment %}
+    </div>
+    <div>
+      <p>{{ category.desc }}</p>
+    </div>
+  {% endif %}
+
+  <!-- Add space after top navbar -->
+  <div class="mt-3"></div>
+
+  <!-- Center align the product cards -->
+  <div class="product-container mt-5">
+    <div class="row justify-content-center row-cols-1 row-cols-md-3 g-4"> <!-- Added spacing utilities -->
+      {% for prod in product %}
+        <div class='col'>
+          <div class='card product-card'>
+            <img class='card-img-top' src='{{ prod.image.url }}' alt='Product Image'>
+            <div class='card-body'>
+              <h5 class='card-title'>{{ prod.name }}</h5>
+              <p class='card-text'>{{ prod.desc }}</p>
+              <div class='d-flex justify-content-between align-items-center'>
+                <small class='text-muted'>₹{{ prod.price }}</small>
+                <div class='btn-group'>
+                  <button type='button' class='btn btn-sm btn-outline-primary'>Add to Cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}
